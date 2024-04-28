@@ -77,6 +77,62 @@ def convert_to_grayscale():
 
     return encoded_image.tobytes()
 
+@app.route('/api/brightness', methods=['POST'])
+def adjust_brightness():
+    # Read image from request
+    image_data = np.fromstring(request.files['image'].read(), np.uint8)
+    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
+
+    # Get brightness factor parameter
+    factor = float(request.form['factor'])
+
+    # Adjust brightness
+    adjusted_image = cv2.convertScaleAbs(image, alpha=factor, beta=0)
+
+    # Encode adjusted image to bytes
+    _, encoded_image = cv2.imencode('.jpg', adjusted_image)
+
+    return encoded_image.tobytes()
+
+@app.route('/api/contrast', methods=['POST'])
+def adjust_contrast():
+    # Read image from request
+    image_data = np.fromstring(request.files['image'].read(), np.uint8)
+    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
+
+    # Get contrast factor parameter
+    factor = float(request.form['factor'])
+
+    # Adjust contrast
+    adjusted_image = cv2.convertScaleAbs(image, alpha=factor, beta=0)
+
+    # Encode adjusted image to bytes
+    _, encoded_image = cv2.imencode('.jpg', adjusted_image)
+
+    return encoded_image.tobytes()
+
+@app.route('/api/flip', methods=['POST'])
+def flip_image():
+    # Read image from request
+    image_data = np.fromstring(request.files['image'].read(), np.uint8)
+    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
+
+    # Get flip axis parameter
+    axis = request.form['axis']
+
+    # Flip the image
+    if axis == 'horizontal':
+        flipped_image = cv2.flip(image, 1)
+    elif axis == 'vertical':
+        flipped_image = cv2.flip(image, 0)
+    else:
+        return jsonify({'error': 'Invalid axis parameter'})
+
+    # Encode flipped image to bytes
+    _, encoded_image = cv2.imencode('.jpg', flipped_image)
+
+    return encoded_image.tobytes()
+
 # Define other API endpoints in a similar manner
 
 if __name__ == '__main__':
