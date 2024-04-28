@@ -4,6 +4,11 @@ import numpy as np
 
 app = Flask(__name__)
 
+# Function to list available fonts
+def list_fonts():
+    fonts = [getattr(cv2, f) for f in dir(cv2) if f.startswith('FONT_HERSHEY')]
+    return fonts
+
 @app.route('/api/resize', methods=['POST'])
 def resize_image():
     # Get image data from request
@@ -175,6 +180,11 @@ def convert_image_format():
 
     return encoded_image.tobytes()
 
+@app.route('/api/list_fonts', methods=['GET'])
+def get_fonts():
+    fonts = list_fonts()
+    return jsonify(fonts)
+
 @app.route('/api/add_text', methods=['POST'])
 def add_text_to_image():
     # Read image from request
@@ -183,19 +193,20 @@ def add_text_to_image():
 
     # Get text and font parameters
     text = request.form['text']
-    font = request.form['font']
+    font = int(request.form['font'])  # Convert font to int
     font_size = int(request.form['font_size'])
     left = int(request.form['left'])
     top = int(request.form['top'])
     color = tuple(map(int, request.form['color'].split(','))) if 'color' in request.form else (0, 0, 255)  # Default: Red
 
     # Add text to the image
-    cv2.putText(image, text, (left, top), cv2.FONT_HERSHEY_SIMPLEX, font_size, color, 2, cv2.LINE_AA)
+    cv2.putText(image, text, (left, top), font, font_size, color, 2, cv2.LINE_AA)
 
     # Encode image to bytes
     _, encoded_image = cv2.imencode('.jpg', image)
 
-    return encoded_image.tobytes()
+    return encoded_image.tobytes(), 200, {'Content-Type': 'image/jpeg'}
+
 
 @app.errorhandler(400)
 def bad_request(error):
