@@ -9,6 +9,10 @@ def list_fonts():
     fonts = [getattr(cv2, f) for f in dir(cv2) if f.startswith('FONT_HERSHEY')]
     return fonts
 
+@app.route('/', methods=['GET'])
+def home():    
+    jsonify({'error': 'Method not allowed'}), 405
+
 @app.route('/api/resize', methods=['POST'])
 def resize_image():
     # Get image data from request
@@ -185,6 +189,10 @@ def get_fonts():
     fonts = list_fonts()
     return jsonify(fonts)
 
+@app.route('/api/debug', methods=['GET'])
+def debug():    
+    return jsonify("Debug")
+
 @app.route('/api/add_text', methods=['POST'])
 def add_text_to_image():
     # Read image from request
@@ -217,5 +225,5 @@ def internal_server_error(error):
     return jsonify({'error': 'Internal server error'}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=6000, debug=True)
 
