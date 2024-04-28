@@ -63,6 +63,19 @@ def rotate_image():
 
     return encoded_image.tobytes()
 
+@app.route('/api/grayscale', methods=['POST'])
+def convert_to_grayscale():
+    # Read image from request
+    image_data = np.fromstring(request.files['image'].read(), np.uint8)
+    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
+
+    # Convert the image to grayscale
+    grayscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Encode grayscale image to bytes
+    _, encoded_image = cv2.imencode('.jpg', grayscale_image)
+
+    return encoded_image.tobytes()
 
 # Define other API endpoints in a similar manner
 
