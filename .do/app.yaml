@@ -1,0 +1,15 @@
+name: image-manipulation-api
+type: worker
+
+http_port: 5000
+
+build:
+  commands:
+    - pip install -r requirements.txt
+
+run:
+  command: gunicorn app:app --worker-class gevent --timeout 60 --workers 2
+
+envs:
+  - key: FLASK_APP
+    value: app.py

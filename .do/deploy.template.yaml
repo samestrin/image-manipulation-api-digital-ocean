@@ -1,0 +1,8 @@
+spec:
+  name: image-manipulation-api-digital-ocean
+  services:
+    - name: web
+      environment_slug: python
+      github:
+        branch: main
+        repo_clone_url: https://github.com/samestrin/image-manipulation-api-digital-ocean.git
