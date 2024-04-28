@@ -1,6 +1,9 @@
 name: image-manipulation-api
 type: worker
 
+features:
+  - buildpack-stack=ubuntu-20
+
 http_port: 5000
 
 build:
