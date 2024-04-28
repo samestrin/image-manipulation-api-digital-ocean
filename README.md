@@ -1,6 +1,12 @@
 # image-manipulation-api
 
+[![Star on GitHub](https://img.shields.io/github/stars/samestrin/image-manipulation-api-digital-ocean?style=social)](https://github.com/samestrin/image-manipulation-api-digital-ocean/stargazers) [![Fork on GitHub](https://img.shields.io/github/forks/samestrin/image-manipulation-api-digital-ocean?style=social)](https://github.com/samestrin/image-manipulation-api-digital-ocean/network/members) [![Watch on GitHub](https://img.shields.io/github/watchers/samestrin/image-manipulation-api-digital-ocean?style=social)](https://github.com/samestrin/image-manipulation-api-digital-ocean/watchers)
+
+![Version 0.0.1](https://img.shields.io/badge/Version-0.0.1-blue) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Built with Node.js](https://img.shields.io/badge/Built%20with-Python)](https://www.python.org/)
+
 The image-manipulation-api is a Flask-based web service designed to perform various image processing tasks. It provides endpoints for resizing, cropping, rotating, converting to grayscale, adjusting brightness and contrast, flipping, applying filters, converting formats, adding text, and listing available fonts.
+
+This is under active development and should not yet be considered stable.
 
 ## **Endpoints**
 
@@ -134,3 +140,15 @@ The API handles errors gracefully and returns appropriate error responses.
 
 - **400 Bad Request**: Invalid request parameters.
 - **500 Internal Server Error**: Unexpected server error.
+
+## Contribute
+
+Contributions to this project are welcome. Please fork the repository and submit a pull request with your changes or improvements.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Share
+
+[![Twitter](https://img.shields.io/badge/X-Tweet-blue)](https://twitter.com/intent/tweet?text=Check%20out%20this%20awesome%20project!&url=https://github.com/samestrin/image-manipulation-api-digital-ocean) [![Facebook](https://img.shields.io/badge/Facebook-Share-blue)](https://www.facebook.com/sharer/sharer.php?u=https://github.com/samestrin/image-manipulation-api-digital-ocean) [![LinkedIn](https://img.shields.io/badge/LinkedIn-Share-blue)](https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/samestrin/image-manipulation-api-digital-ocean)
