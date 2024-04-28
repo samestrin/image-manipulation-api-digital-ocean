@@ -2,7 +2,7 @@
 
 [![Star on GitHub](https://img.shields.io/github/stars/samestrin/image-manipulation-api-digital-ocean?style=social)](https://github.com/samestrin/image-manipulation-api-digital-ocean/stargazers) [![Fork on GitHub](https://img.shields.io/github/forks/samestrin/image-manipulation-api-digital-ocean?style=social)](https://github.com/samestrin/image-manipulation-api-digital-ocean/network/members) [![Watch on GitHub](https://img.shields.io/github/watchers/samestrin/image-manipulation-api-digital-ocean?style=social)](https://github.com/samestrin/image-manipulation-api-digital-ocean/watchers)
 
-![Version 0.0.1](https://img.shields.io/badge/Version-0.0.1-blue) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Built with Node.js](https://img.shields.io/badge/Built%20with-Python)](https://www.python.org/)
+![Version 0.0.1](https://img.shields.io/badge/Version-0.0.1-blue) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Built with Python](https://img.shields.io/badge/Built%20with-Python-green)](https://www.python.org/)
 
 The image-manipulation-api is a Flask-based web service designed to perform various image processing tasks. It provides endpoints for resizing, cropping, rotating, converting to grayscale, adjusting brightness and contrast, flipping, applying filters, converting formats, adding text, and listing available fonts.
 
