@@ -6,7 +6,7 @@
 
 The image-manipulation-api is a Flask-based web service designed to perform various image processing tasks. It provides endpoints for resizing, cropping, rotating, converting to grayscale, adjusting brightness and contrast, flipping, applying filters, converting formats, adding text, and listing available fonts.
 
-This is under active development and should not yet be considered stable.
+_This is under active development and should not yet be considered stable._
 
 ## **Endpoints**
 
