@@ -8,6 +8,28 @@ The image-manipulation-api is a Flask-based web service designed to perform vari
 
 _This is under active development and should not yet be considered stable._
 
+### Installation
+
+To install and use image-manipulation-api-digital-ocean, follow these steps:
+
+Clone the Repository: Begin by cloning the repository containing the image-manipulation-api-digital-ocean to your local machine.
+
+```bash
+git clone https://github.com/samestrin/image-manipulation-api-digital-ocean/
+```
+
+Navigate to the project directory:
+
+```bash
+cd image-manipulation-api-digital-ocean
+```
+
+Install the required dependencies using pip:
+
+```bash
+pip install -r requirements.txt
+```
+
 ## **Endpoints**
 
 ### **Resize Image**
