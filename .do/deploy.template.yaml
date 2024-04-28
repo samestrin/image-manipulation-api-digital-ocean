@@ -1,0 +1,8 @@
+spec:
+  name: image-manipulation-api-digital-ocean
+  services:
+    - dockerfile_path: Dockerfile
+      git:
+        branch: main
+        repo_clone_url: https://github.com/samestrin/image-manipulation-api-digital-ocean.git
+      name: image-manipulation-api-digital-ocean
