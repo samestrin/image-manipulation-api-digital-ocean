@@ -10,8 +10,8 @@ def list_fonts():
     return fonts
 
 @app.route('/', methods=['GET'])
-def home():    
-    jsonify({'error': 'Method not allowed'}), 405
+def home():
+    return jsonify({'error': 'Method not allowed'}), 405
 
 @app.route('/api/resize', methods=['POST'])
 def resize_image():
@@ -188,10 +188,6 @@ def convert_image_format():
 def get_fonts():
     fonts = list_fonts()
     return jsonify(fonts)
-
-@app.route('/api/debug', methods=['GET'])
-def debug():    
-    return jsonify("Debug")
 
 @app.route('/api/add_text', methods=['POST'])
 def add_text_to_image():
