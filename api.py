@@ -133,7 +133,78 @@ def flip_image():
 
     return encoded_image.tobytes()
 
-# Define other API endpoints in a similar manner
+@app.route('/api/filter', methods=['POST'])
+def apply_filter():
+    # Read image from request
+    image_data = np.fromstring(request.files['image'].read(), np.uint8)
+    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
+
+    # Get filter type parameter
+    filter_type = request.form['filter_type']
+
+    # Apply filter
+    if filter_type == 'blur':
+        filtered_image = cv2.GaussianBlur(image, (5, 5), 0)
+    elif filter_type == 'sharpen':
+        kernel = np.array([[-1, -1, -1],
+                           [-1,  9, -1],
+                           [-1, -1, -1]])
+        filtered_image = cv2.filter2D(image, -1, kernel)
+    elif filter_type == 'edge_detect':
+        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        filtered_image = cv2.Canny(gray_image, 100, 200)
+    else:
+        return jsonify({'error': 'Invalid filter_type parameter'})
+
+    # Encode filtered image to bytes
+    _, encoded_image = cv2.imencode('.jpg', filtered_image)
+
+    return encoded_image.tobytes()
+
+@app.route('/api/convert', methods=['POST'])
+def convert_image_format():
+    # Read image from request
+    image_data = np.fromstring(request.files['image'].read(), np.uint8)
+    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
+
+    # Get output format parameter
+    output_format = request.form['output_format']
+
+    # Encode image to the specified output format
+    _, encoded_image = cv2.imencode('.' + output_format, image)
+
+    return encoded_image.tobytes()
+
+@app.route('/api/add_text', methods=['POST'])
+def add_text_to_image():
+    # Read image from request
+    image_data = np.fromstring(request.files['image'].read(), np.uint8)
+    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
+
+    # Get text and font parameters
+    text = request.form['text']
+    font = request.form['font']
+    font_size = int(request.form['font_size'])
+    left = int(request.form['left'])
+    top = int(request.form['top'])
+    color = tuple(map(int, request.form['color'].split(','))) if 'color' in request.form else (0, 0, 255)  # Default: Red
+
+    # Add text to the image
+    cv2.putText(image, text, (left, top), cv2.FONT_HERSHEY_SIMPLEX, font_size, color, 2, cv2.LINE_AA)
+
+    # Encode image to bytes
+    _, encoded_image = cv2.imencode('.jpg', image)
+
+    return encoded_image.tobytes()
+
+@app.errorhandler(400)
+def bad_request(error):
+    return jsonify({'error': 'Bad request'}), 400
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return jsonify({'error': 'Internal server error'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
+
