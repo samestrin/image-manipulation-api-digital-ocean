@@ -10,7 +10,7 @@ _This is under active development and should not yet be considered stable._
 
 ### Installation
 
-To install and use image-manipulation-api-digital-ocean, follow these steps:
+To install image-manipulation-api-digital-ocean, follow these steps:
 
 Clone the Repository: Begin by cloning the repository containing the image-manipulation-api-digital-ocean to your local machine.
 
