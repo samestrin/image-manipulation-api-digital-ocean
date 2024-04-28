@@ -8,12 +8,6 @@ The image-manipulation-api is a Flask-based web service designed to perform vari
 
 _This is under active development and should not yet be considered stable._
 
-## Deploy to Digital Ocean
-
-Click this button to deploy the project to your Digital Ocean account:
-
-[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/samestrin/image-manipulation-api-digital-ocean/tree/main&refcode=2d3f5d7c5fbe)
-
 ### Installation
 
 To install and use image-manipulation-api-digital-ocean, follow these steps:
