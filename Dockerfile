@@ -22,7 +22,7 @@ RUN pip install --no-cache-dir pipenv
 RUN pipenv install --deploy --ignore-pipfile
 
 # Make port 5000 available to the world outside this container
-EXPOSE 6000
+EXPOSE 5000
 
 # Run app.py when the container launches using Pipenv
 CMD ["pipenv", "run", "python", "app.py"]
