@@ -31,7 +31,7 @@ cd image-manipulation-api-digitalocean
 Install the required dependencies using pip:
 
 ```bash
-pip install -r requirements.txt
+pip install -r src/requirements.txt
 ```
 
 ## **Endpoints**
