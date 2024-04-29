@@ -174,6 +174,10 @@ The API handles errors gracefully and returns appropriate error responses.
 - **400 Bad Request**: Invalid request parameters.
 - **500 Internal Server Error**: Unexpected server error.
 
+## Frontend/Testing Interface
+
+[image-manipulation-api-demo](https://github.com/samestrin/image-manipulation-api-demo) is a simple a Bootstrap/jQuery based testing interface the image-manipulation-api-digitalocean project.
+
 ## Contribute
 
 Contributions to this project are welcome. Please fork the repository and submit a pull request with your changes or improvements.
