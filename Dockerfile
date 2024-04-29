@@ -9,4 +9,4 @@ COPY . /app
 
 EXPOSE 5000
 
-CMD ["gunicorn", "server:app", "-w", "2", "-b", "0.0.0.0:5000"]
+CMD ["gunicorn", "src.app:app", "-w", "2", "-b", "0.0.0.0:5000"]
