@@ -6,8 +6,14 @@ app = Flask(__name__)
 
 # Function to list available fonts
 def list_fonts():
-    fonts = [getattr(cv2, f) for f in dir(cv2) if f.startswith('FONT_HERSHEY')]
-    return fonts
+    font_data = [
+        {
+            'name': f.split('_')[-1].lower(),  # Extract and lowercase name
+            'id': getattr(cv2, f)
+        }
+        for f in dir(cv2) if f.startswith('FONT_HERSHEY')
+    ]
+    return font_data
 
 @app.route('/', methods=['GET'])
 def home():
