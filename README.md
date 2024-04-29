@@ -1,6 +1,6 @@
 # image-manipulation-api
 
-[![Star on GitHub](https://img.shields.io/github/stars/samestrin/image-manipulation-api-digital-ocean?style=social)](https://github.com/samestrin/image-manipulation-api-digital-ocean/stargazers) [![Fork on GitHub](https://img.shields.io/github/forks/samestrin/image-manipulation-api-digital-ocean?style=social)](https://github.com/samestrin/image-manipulation-api-digital-ocean/network/members) [![Watch on GitHub](https://img.shields.io/github/watchers/samestrin/image-manipulation-api-digital-ocean?style=social)](https://github.com/samestrin/image-manipulation-api-digital-ocean/watchers)
+[![Star on GitHub](https://img.shields.io/github/stars/samestrin/image-manipulation-api-digitalocean?style=social)](https://github.com/samestrin/image-manipulation-api-digitalocean/stargazers) [![Fork on GitHub](https://img.shields.io/github/forks/samestrin/image-manipulation-api-digitalocean?style=social)](https://github.com/samestrin/image-manipulation-api-digitalocean/network/members) [![Watch on GitHub](https://img.shields.io/github/watchers/samestrin/image-manipulation-api-digitalocean?style=social)](https://github.com/samestrin/image-manipulation-api-digitalocean/watchers)
 
 ![Version 0.0.1](https://img.shields.io/badge/Version-0.0.1-blue) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Built with Python](https://img.shields.io/badge/Built%20with-Python-green)](https://www.python.org/)
 
@@ -10,22 +10,22 @@ The image-manipulation-api is a Flask-based web service designed to perform vari
 
 Click this button to deploy the project to your Digital Ocean account:
 
-[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/samestrin/image-manipulation-api-digital-ocean/tree/main&refcode=2d3f5d7c5fbe)
+[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/samestrin/image-manipulation-api-digitalocean/tree/main&refcode=2d3f5d7c5fbe)
 
 ### Installation
 
-To install image-manipulation-api-digital-ocean, follow these steps:
+To install image-manipulation-api-digitalocean, follow these steps:
 
-Clone the Repository: Begin by cloning the repository containing the image-manipulation-api-digital-ocean to your local machine.
+Clone the Repository: Begin by cloning the repository containing the image-manipulation-api-digitalocean to your local machine.
 
 ```bash
-git clone https://github.com/samestrin/image-manipulation-api-digital-ocean/
+git clone https://github.com/samestrin/image-manipulation-api-digitalocean/
 ```
 
 Navigate to the project directory:
 
 ```bash
-cd image-manipulation-api-digital-ocean
+cd image-manipulation-api-digitalocean
 ```
 
 Install the required dependencies using pip:
@@ -177,4 +177,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Share
 
-[![Twitter](https://img.shields.io/badge/X-Tweet-blue)](https://twitter.com/intent/tweet?text=Check%20out%20this%20awesome%20project!&url=https://github.com/samestrin/image-manipulation-api-digital-ocean) [![Facebook](https://img.shields.io/badge/Facebook-Share-blue)](https://www.facebook.com/sharer/sharer.php?u=https://github.com/samestrin/image-manipulation-api-digital-ocean) [![LinkedIn](https://img.shields.io/badge/LinkedIn-Share-blue)](https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/samestrin/image-manipulation-api-digital-ocean)
+[![Twitter](https://img.shields.io/badge/X-Tweet-blue)](https://twitter.com/intent/tweet?text=Check%20out%20this%20awesome%20project!&url=https://github.com/samestrin/image-manipulation-api-digitalocean) [![Facebook](https://img.shields.io/badge/Facebook-Share-blue)](https://www.facebook.com/sharer/sharer.php?u=https://github.com/samestrin/image-manipulation-api-digitalocean) [![LinkedIn](https://img.shields.io/badge/LinkedIn-Share-blue)](https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/samestrin/image-manipulation-api-digitalocean)
