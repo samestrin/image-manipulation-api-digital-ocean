@@ -10,7 +10,7 @@ The image-manipulation-api is a Flask-based web service designed to perform vari
 
 Click this button to deploy the project to your Digital Ocean account:
 
-[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/samestrin/claude-to-chatgpt-digital-ocean/tree/main&refcode=2d3f5d7c5fbe)
+[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/samestrin/image-manipulation-api-digital-ocean/tree/main&refcode=2d3f5d7c5fbe)
 
 ### Installation
 
