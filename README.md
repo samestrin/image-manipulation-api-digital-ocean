@@ -6,6 +6,12 @@
 
 The image-manipulation-api is a Flask-based web service designed to perform various image processing tasks. It provides endpoints for resizing, cropping, rotating, converting to grayscale, adjusting brightness and contrast, flipping, applying filters, converting formats, adding text, and listing available fonts.
 
+## Dependencies
+
+- **Flask**: This is used for creating the web server and handling HTTP requests.
+- **NumPy**: Used for handling numerical data, particularly arrays.
+- **OpenCV**: Utilized for image processing tasks like reading, resizing, cropping, rotating, converting color spaces, applying filters, and encoding images.
+
 ## Deploy to DigitalOcean App Platform
 
 Click this button to deploy the project to your Digital Ocean account:
