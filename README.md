@@ -8,7 +8,7 @@ The image-manipulation-api is a Flask-based web service designed to perform vari
 
 ## Dependencies
 
-- **Flask**: This is used for creating the web server and handling HTTP requests.
+- **Flask**: This is used for creating the web server and handling the REST API HTTP requests.
 - **NumPy**: Used for handling numerical data, particularly arrays.
 - **OpenCV**: Utilized for image processing tasks like reading, resizing, cropping, rotating, converting color spaces, applying filters, and encoding images.
 
