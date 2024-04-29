@@ -1,9 +1,9 @@
 services:
   - name: image-manipulation-api
     git:
-      repo_clone_url: https://github.com/your-repo/image-manipulation-api-digital-ocean
+      repo_clone_url: https://github.com/your-repo/image-manipulation-api-digital-ocean.git
       branch: main
     dockerfile_path: Dockerfile
-    source_dir: /
+    source_dir: /src
     routes:
       - path: /
