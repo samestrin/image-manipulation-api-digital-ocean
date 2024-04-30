@@ -176,7 +176,7 @@ The API handles errors gracefully and returns appropriate error responses.
 
 ## Frontend/Testing Interface
 
-The [image-manipulation-api-demo](https://github.com/samestrin/image-manipulation-api-demo) is a simple testing interface that utilizes Bootstrap and jQuery for AJAX-based interactions with the image-manipulation-api-digitalocean project.
+The [image-manipulation-api-demo](https://github.com/samestrin/image-manipulation-api-demo) project is a simple testing interface that utilizes Bootstrap and jQuery for AJAX-based interactions with the image-manipulation-api-digitalocean.
 
 ## Contribute
 
