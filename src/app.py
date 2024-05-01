@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import cv2
 import numpy as np
 from flask_cors import CORS 
+import asyncio
 
 app = Flask(__name__)
 CORS(app)
@@ -15,7 +16,7 @@ def list_fonts():
     """    
     font_data = [
         {
-            'name': f.split('_')[-1].lower(),  # Extract and lowercase name
+            'name': f.lower(),  # Extract and lowercase name
             'id': getattr(cv2, f)
         }
         for f in dir(cv2) if f.startswith('FONT_HERSHEY')
@@ -53,30 +54,45 @@ def get_content_type(extension):
         return 'image/png'
     return 'application/octet-stream'
 
+# Async function to process image manipulations
+async def process_image(image_data, process_func, *args, **kwargs):
+    loop = asyncio.get_running_loop()
+    result = await loop.run_in_executor(None, process_func, image_data, *args, **kwargs)
+    return result
+
+def decode_image(image_file):
+    image_data = np.frombuffer(image_file.read(), dtype=np.uint8)
+    return cv2.imdecode(image_data, cv2.IMREAD_COLOR)
+
+def encode_image(image, output_format):
+    _, encoded_image = cv2.imencode('.' + output_format, image)
+    return encoded_image.tobytes()
+
+def handle_image_request(process_func, request):
+    image_file = request.files['image']
+    output_format = get_file_extension(image_file)
+    image = decode_image(image_file)
+    processed_image = process_func(image, **request.form.to_dict(flat=True))
+    encoded_image = encode_image(processed_image, output_format)
+    content_type = get_content_type(output_format)
+    return encoded_image, 200, {'Content-Type': content_type}
+
+
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({'error': 'Method not allowed'}), 405
 
+# Endpoint functions refactored to use handle_image_request
 @app.route('/api/resize', methods=['POST'])
 def resize_image():
     """Resizes an image to specified dimensions.
 
     Returns:
         tuple: A tuple containing the binary image data, response code, and content type header.
-    """    
-    image_file = request.files['image']
-    image_data = np.frombuffer(image_file.read(), dtype=np.uint8)
-    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
-
-    width = int(request.form['width'])
-    height = int(request.form['height'])
-
-    resized_image = cv2.resize(image, (width, height))
-
-    output_format = get_file_extension(image_file)
-    _, encoded_image = cv2.imencode('.' + output_format, resized_image)
-    content_type = get_content_type(output_format)
-    return encoded_image.tobytes(), 200, {'Content-Type': content_type}
+    """
+    def resize_func(image, width, height):
+        return cv2.resize(image, (int(width), int(height)))
+    return handle_image_request(resize_func, request)
 
 @app.route('/api/crop', methods=['POST'])
 def crop_image():
@@ -84,22 +100,10 @@ def crop_image():
 
     Returns:
         tuple: A tuple containing the binary image data, response code, and content type header.
-    """    
-    image_file = request.files['image']
-    image_data = np.frombuffer(image_file.read(), dtype=np.uint8)
-    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
-
-    x1 = int(request.form['x1'])
-    y1 = int(request.form['y1'])
-    x2 = int(request.form['x2'])
-    y2 = int(request.form['y2'])
-
-    cropped_image = image[y1:y2, x1:x2]
-
-    output_format = get_file_extension(image_file)
-    _, encoded_image = cv2.imencode('.' + output_format, cropped_image)
-    content_type = get_content_type(output_format)
-    return encoded_image.tobytes(), 200, {'Content-Type': content_type}
+    """
+    def crop_func(image, x1, y1, x2, y2):
+        return image[int(y1):int(y2), int(x1):int(x2)]
+    return handle_image_request(crop_func, request)
 
 @app.route('/api/rotate', methods=['POST'])
 def rotate_image():
@@ -107,40 +111,24 @@ def rotate_image():
 
     Returns:
         tuple: A tuple containing the binary image data, response code, and content type header.
-    """    
-    image_file = request.files['image']
-    image_data = np.frombuffer(image_file.read(), dtype=np.uint8)
-    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
+    """
+    def rotate_func(image, angle):
+        height, width = image.shape[:2]
+        rotation_matrix = cv2.getRotationMatrix2D((width / 2, height / 2), angle, 1)
+        return cv2.warpAffine(image, rotation_matrix, (width, height))
+    return handle_image_request(rotate_func, request)
 
-    angle = float(request.form['angle'])
-    height, width = image.shape[:2]
-    rotation_matrix = cv2.getRotationMatrix2D((width / 2, height / 2), angle, 1)
-    rotated_image = cv2.warpAffine(image, rotation_matrix, (width, height))
-
-    output_format = get_file_extension(image_file)
-    _, encoded_image = cv2.imencode('.' + output_format, rotated_image)
-    content_type = get_content_type(output_format)
-    return encoded_image.tobytes(), 200, {'Content-Type': content_type}
-
-    return encoded_image.tobytes()
-
+# Endpoint functions refactored to use handle_image_request
 @app.route('/api/grayscale', methods=['POST'])
 def convert_to_grayscale():
     """Converts an image to grayscale.
 
     Returns:
         tuple: A tuple containing the binary image data, response code, and content type header.
-    """    
-    image_file = request.files['image']
-    image_data = np.frombuffer(image_file.read(), dtype=np.uint8)
-    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
-
-    grayscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    output_format = get_file_extension(image_file)
-    _, encoded_image = cv2.imencode('.' + output_format, grayscale_image)
-    content_type = get_content_type(output_format)
-    return encoded_image.tobytes(), 200, {'Content-Type': content_type}
+    """
+    def grayscale_func(image):
+        return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    return handle_image_request(grayscale_func, request)
 
 @app.route('/api/brightness', methods=['POST'])
 def adjust_brightness():
@@ -148,18 +136,10 @@ def adjust_brightness():
 
     Returns:
         tuple: A tuple containing the binary image data, response code, and content type header.
-    """    
-    image_file = request.files['image']
-    image_data = np.frombuffer(image_file.read(), dtype=np.uint8)
-    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
-
-    factor = float(request.form['factor'])
-    adjusted_image = cv2.convertScaleAbs(image, alpha=factor, beta=0)
-
-    output_format = get_file_extension(image_file)
-    _, encoded_image = cv2.imencode('.' + output_format, adjusted_image)
-    content_type = get_content_type(output_format)
-    return encoded_image.tobytes(), 200, {'Content-Type': content_type}
+    """
+    def brightness_func(image, factor):
+        return cv2.convertScaleAbs(image, alpha=float(factor), beta=0)
+    return handle_image_request(brightness_func, request)
 
 @app.route('/api/contrast', methods=['POST'])
 def adjust_contrast():
@@ -167,18 +147,10 @@ def adjust_contrast():
 
     Returns:
         tuple: A tuple containing the binary image data, response code, and content type header.
-    """    
-    image_file = request.files['image']
-    image_data = np.frombuffer(image_file.read(), dtype=np.uint8)
-    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
-
-    factor = float(request.form['factor'])
-    adjusted_image = cv2.convertScaleAbs(image, alpha=factor, beta=0)
-
-    output_format = get_file_extension(image_file)
-    _, encoded_image = cv2.imencode('.' + output_format, adjusted_image)
-    content_type = get_content_type(output_format)
-    return encoded_image.tobytes(), 200, {'Content-Type': content_type}
+    """
+    def contrast_func(image, factor):
+        return cv2.convertScaleAbs(image, alpha=float(factor), beta=0)
+    return handle_image_request(contrast_func, request)
 
 @app.route('/api/flip', methods=['POST'])
 def flip_image():
@@ -186,23 +158,15 @@ def flip_image():
 
     Returns:
         tuple: A tuple containing the binary image data, response code, and content type header.
-    """    
-    image_file = request.files['image']
-    image_data = np.frombuffer(image_file.read(), dtype=np.uint8)
-    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
-
-    axis = request.form['axis']
-    if axis == 'horizontal':
-        flipped_image = cv2.flip(image, 1)
-    elif axis == 'vertical':
-        flipped_image = cv2.flip(image, 0)
-    else:
-        return jsonify({'error': 'Invalid axis parameter'}), 400
-
-    output_format = get_file_extension(image_file)
-    _, encoded_image = cv2.imencode('.' + output_format, flipped_image)
-    content_type = get_content_type(output_format)
-    return encoded_image.tobytes(), 200, {'Content-Type': content_type}
+    """
+    def flip_func(image, axis):
+        if axis == 'horizontal':
+            return cv2.flip(image, 1)
+        elif axis == 'vertical':
+            return cv2.flip(image, 0)
+        else:
+            return None
+    return handle_image_request(flip_func, request)
 
 @app.route('/api/filter', methods=['POST'])
 def apply_filter():
@@ -210,27 +174,19 @@ def apply_filter():
 
     Returns:
         tuple: A tuple containing the binary image data, response code, and content type header.
-    """    
-    image_file = request.files['image']
-    image_data = np.frombuffer(image_file.read(), dtype=np.uint8)
-    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
-
-    filter_type = request.form['filter_type']
-    if filter_type == 'blur':
-        filtered_image = cv2.GaussianBlur(image, (5, 5), 0)
-    elif filter_type == 'sharpen':
-        kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
-        filtered_image = cv2.filter2D(image, -1, kernel)
-    elif filter_type == 'edge_detect':
-        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        filtered_image = cv2.Canny(gray_image, 100, 200)
-    else:
-        return jsonify({'error': 'Invalid filter type'}), 400
-
-    output_format = get_file_extension(image_file)
-    _, encoded_image = cv2.imencode('.' + output_format, filtered_image)
-    content_type = get_content_type(output_format)
-    return encoded_image.tobytes(), 200, {'Content-Type': content_type}
+    """
+    def filter_func(image, filter_type):
+        if filter_type == 'blur':
+            return cv2.GaussianBlur(image, (5, 5), 0)
+        elif filter_type == 'sharpen':
+            kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+            return cv2.filter2D(image, -1, kernel)
+        elif filter_type == 'edge_detect':
+            gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            return cv2.Canny(gray_image, 100, 200)
+        else:
+            return None
+    return handle_image_request(filter_func, request)
 
 @app.route('/api/convert', methods=['POST'])
 def convert_image_format():
@@ -238,15 +194,12 @@ def convert_image_format():
 
     Returns:
         tuple: A tuple containing the binary image data, response code, and content type header.
-    """    
-    image_file = request.files['image']
-    image_data = np.frombuffer(image_file.read(), dtype=np.uint8)
-    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
-
-    output_format = request.form['output_format']
-    _, encoded_image = cv2.imencode('.' + output_format, image)
-    content_type = get_content_type(output_format)
-    return encoded_image.tobytes(), 200, {'Content-Type': content_type}
+    """
+    def convert_func(image, output_format):
+        _, encoded_image = cv2.imencode('.' + output_format, image)
+        content_type = get_content_type(output_format)
+        return encoded_image.tobytes(), 200, {'Content-Type': content_type}
+    return handle_image_request(convert_func, request)
 
 @app.route('/api/list_fonts', methods=['GET'])
 def get_fonts():
@@ -258,6 +211,7 @@ def get_fonts():
     fonts = list_fonts()
     return jsonify(fonts)
 
+
 @app.route('/api/add_text', methods=['POST'])
 def add_text_to_image():
     """Adds text to an image based on parameters provided in the form.
@@ -265,27 +219,25 @@ def add_text_to_image():
     Returns:
         tuple: A tuple containing the binary image data, response code, and content type header.
     """    
-    image_file = request.files['image']
-    image_data = np.frombuffer(image_file.read(), dtype=np.uint8)
-    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
+    def add_text(image, text, font, font_size, left, top, color):
+        """Adds text to the image.
 
-    # Retrieve text and formatting details from the form
-    text = request.form['text']
-    font = int(request.form['font'])  # Convert font ID to integer
-    font_size = float(request.form['font_size'])
-    left = int(request.form['left'])
-    top = int(request.form['top'])
-    color = tuple(map(int, request.form['color'].split(','))) if 'color' in request.form else (255, 255, 255)  # Default color is white
+        Args:
+            image (numpy.ndarray): The input image.
+            text (str): The text to be added.
+            font (int): The font ID.
+            font_size (float): The font size.
+            left (int): The left position of the text.
+            top (int): The top position of the text.
+            color (tuple): The color of the text.
 
-    # Put text on the image
-    cv2.putText(image, text, (left, top), font, font_size, color, 2, cv2.LINE_AA)
+        Returns:
+            numpy.ndarray: The image with the text added.
+        """
+        cv2.putText(image, text, (left, top), font, font_size, color, 2, cv2.LINE_AA)
+        return image
 
-    # Determine the output format from the uploaded file
-    output_format = get_file_extension(image_file)
-    _, encoded_image = cv2.imencode('.' + output_format, image)
-    content_type = get_content_type(output_format)
-
-    return encoded_image.tobytes(), 200, {'Content-Type': content_type}
+    return handle_image_request(add_text, request)
 
 @app.errorhandler(400)
 def bad_request(error):
