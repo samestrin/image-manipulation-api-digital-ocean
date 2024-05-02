@@ -23,7 +23,7 @@ Click this button to deploy the project to your Digital Ocean account:
 
 To install image-manipulation-api-digitalocean, follow these steps:
 
-Clone the Repository: Begin by cloning the repository containing the image-manipulation-api-digitalocean to your local machine.
+Begin by cloning the repository containing the image-manipulation-api-digitalocean to your local machine.
 
 ```bash
 git clone https://github.com/samestrin/image-manipulation-api-digitalocean/
