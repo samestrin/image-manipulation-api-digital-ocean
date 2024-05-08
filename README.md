@@ -4,12 +4,14 @@
 
 ![Version 0.0.2](https://img.shields.io/badge/Version-0.0.2-blue) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Built with Python](https://img.shields.io/badge/Built%20with-Python-green)](https://www.python.org/)
 
-**image-manipulation-api-digitalocean** is a Flask-based web service designed to perform various image processing tasks. It provides endpoints for resizing, cropping, rotating, converting to grayscale, adjusting brightness and contrast, flipping, applying filters, converting formats, adding text, and listing available fonts.
+**image-manipulation-api-digitalocean** is a Flask-based web service designed to perform various image processing tasks. It provides endpoints for resizing, cropping, rotating, converting to grayscale, adjusting brightness and contrast, flipping, applying filters, converting formats, adding text, and listing available fonts. This API deploys to DigitalOcean within a Docker container.
 
 ## Dependencies
 
+- **Python**: The script runs in a Python3 environment.
 - **Flask**: This is used for creating the web server and handling the REST API HTTP requests.
 - **Flask-CORS**: Handles Cross-Origin Resource Sharing (CORS).
+- **gunicorn**: An extension that provides a Python WSGI HTTP Server for UNIX.
 - **NumPy**: Used for handling numerical data, particularly arrays.
 - **OpenCV**: Utilized for image processing tasks like reading, resizing, cropping, rotating, converting color spaces, applying filters, and encoding images.
 
