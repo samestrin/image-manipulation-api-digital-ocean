@@ -1,3 +1,13 @@
+"""
+image-manipulation-api-digitalocean is a Flask-based web service designed to perform various image processing tasks. It provides 
+endpoints for resizing, cropping, rotating, converting to grayscale, adjusting brightness and contrast, flipping, applying filters, 
+converting formats, adding text, and listing available fonts. This API deploys to DigitalOcean within a Docker container.
+
+Copyright (c) 2024-PRESENT Sam Estrin
+This script is licensed under the MIT License (see LICENSE for details)
+GitHub: https://github.com/samestrin/image-manipulation-api-digitalocean
+"""
+
 from flask import Flask, request, jsonify
 import cv2
 import numpy as np
